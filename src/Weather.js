@@ -1,54 +1,100 @@
 import React, { useState } from "react";
+import WeatherInfo from "./WeatherInfo";
+import WeatherForecast from "./WeatherForecast";
 import axios from "axios";
+import "./Weather.css";
 
-export default function Weather() {
-  const [city, setCity] = useState("");
-  const [loaded, setLoaded] = useState(false);
-  const [weather, setWeather] = useState({});
+export default function Weather(props) {
+  const [weatherData, setWeatherData] = useState({ ready: false });
+  const [city, setCity] = useState(props.defaultCity);
 
-  function displayWeather(response) {
-    setLoaded(true);
-    setWeather({
-      temperature: response.data.main.temp,
+  function handleResponse(response) {
+    setWeatherData({
+      ready: true,
+      coordinates: response.data.coordinates,
+      temperature: response.data.temperature.current,
+      humidity: response.data.temperature.humidity,
+      date: new Date(response.data.time * 1000),
+      description: response.data.condition.description,
+      icon: response.data.condition.icon,
       wind: response.data.wind.speed,
-      humidity: response.data.main.humidity,
-      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
-      description: response.data.weather[0].description,
+      city: response.data.city,
     });
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    let apiKey = "5863935ee9cca4c02ed68203f807c65b";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(displayWeather);
+    search();
   }
 
-  function updateCity(event) {
+  function handleCityChange(event) {
     setCity(event.target.value);
   }
 
-  let form = (
-    <form onSubmit={handleSubmit}>
-      <input type="search" placeholder="Enter a city.." onChange={updateCity} />
-      <button type="Submit">Search</button>
-    </form>
-  );
+  function search() {
+    const apiKey = "et9o12f3b1437b5dda065b3e80a5ef38";
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
 
-  if (loaded) {
+    axios.get(apiUrl).then(handleResponse);
+  }
+
+  if (weatherData.ready) {
     return (
-      <div>
-        {form}
-        <div>
-          <p>Temperature: {Math.round(weather.temperature)}°C</p>
-          <p>Description: {weather.description}</p>
-          <p>Humidity: {weather.humidity}%</p>
-          <p>Wind: {weather.wind}km/h</p>
-          <img src={weather.icon} alt={weather.description} />
-        </div>
+      <div className="Weather">
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-9 ">
+              <input
+                type="search"
+                placeholder="Enter a city.."
+                className="form-control search-input"
+                onChange={handleCityChange}
+              />
+            </div>
+            <div className="col-3 p-0">
+              <input
+                type="submit"
+                value="Search"
+                className="btn btn-primary w-100"
+              />
+            </div>
+          </div>
+        </form>
+        <WeatherInfo data={weatherData} />
+        <WeatherForecast
+          coordinates={weatherData.coordinates}
+          city={weatherData.city}
+        />
+        <footer>
+          This project was coded by{" "}
+          <a
+            href="https://github.com/lea-bee"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Leah Twigg
+          </a>{" "}
+          and is{" "}
+          <a
+            href="https://github.com/lea-bee/weather-react"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            open-sourced on GitHub
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://weather-react-omulq9ivc-leahs-projects-e979e8c9.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            hosted on Vercel
+          </a>
+        </footer>
       </div>
     );
   } else {
-    return form;
+    search();
+    return "Loading...";
   }
 }
