@@ -1,5 +1,5 @@
 body {
-  background: #d3f0f3;
+    background-image: linear-gradient(to top, #E0BBE4 0%, #D5C1E0 50%, #330867 100%);
 }
 
 .App {
