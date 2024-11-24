@@ -73,7 +73,7 @@ export default function Weather(props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Leah Twigg
+           👧 Elahe Hamidpour👧
           </a>{" "}
           and is{" "}
           <a
@@ -89,7 +89,7 @@ export default function Weather(props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            hosted on Vercel
+            hosted on Netlify
           </a>
         </footer>
       </div>
