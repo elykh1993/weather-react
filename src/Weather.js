@@ -69,7 +69,7 @@ export default function Weather(props) {
         <footer>
           This project was coded by{" "}
           <a
-            href="https://github.com/lea-bee"
+            href="https://github.com/elykh1993"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -77,7 +77,7 @@ export default function Weather(props) {
           </a>{" "}
           and is{" "}
           <a
-            href="https://github.com/lea-bee/weather-react"
+            href="https://github.com/elykh1993/weather-react"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -85,7 +85,7 @@ export default function Weather(props) {
           </a>{" "}
           and{" "}
           <a
-            href="https://weather-react-omulq9ivc-leahs-projects-e979e8c9.vercel.app/"
+            href="https://weatherapplicationweakly.netlify.app/"
             target="_blank"
             rel="noopener noreferrer"
           >
